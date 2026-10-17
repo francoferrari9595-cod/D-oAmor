@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isMember(coupleId) {
+      return signedIn() && request.auth.uid in get(/databases/$(database)/documents/couples/$(coupleId)).data.memberUids;
+    }
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['coupleId','displayName','fcmToken','updatedAt']);
+      allow delete: if false;
+    }
+    match /invitations/{code} {
+      allow create: if signedIn() && request.resource.data.ownerUid == request.auth.uid
+        && request.resource.data.status == 'pending' && request.resource.data.coupleId == code;
+      allow read: if signedIn() && (resource.data.ownerUid == request.auth.uid || resource.data.status == 'pending');
+      allow update: if signedIn() && resource.data.status == 'pending'
+        && request.resource.data.status == 'used'
+        && request.resource.data.usedBy == request.auth.uid
+        && request.resource.data.ownerUid == resource.data.ownerUid
+        && request.resource.data.coupleId == resource.data.coupleId;
+      allow delete: if false;
+    }
+    match /couples/{coupleId} {
+      allow create: if signedIn() && request.auth.uid in request.resource.data.memberUids
+        && request.resource.data.memberUids.size() == 1;
+      allow read: if isMember(coupleId) || (signedIn() &&
+        get(/databases/$(database)/documents/invitations/$(coupleId)).data.status == 'pending');
+      allow update: if isMember(coupleId) || (signedIn()
+        && resource.data.memberUids.size() == 1
+        && request.resource.data.memberUids.size() == 2
+        && request.auth.uid in request.resource.data.memberUids
+        && getAfter(/databases/$(database)/documents/invitations/$(coupleId)).data.status == 'used'
+        && getAfter(/databases/$(database)/documents/invitations/$(coupleId)).data.usedBy == request.auth.uid);
+      allow delete: if false;
+
+      // Todo lo que cuelga de la pareja (mensajes, llamadas, candidatos ICE, calendario, juegos...):
+      // solo pueden leer y escribir las dos personas vinculadas.
+      match /{document=**} {
+        allow read, write: if isMember(coupleId);
+      }
+    }
+  }
+}

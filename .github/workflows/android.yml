@@ -1,0 +1,92 @@
+name: Generar APK Android - D-oAmor
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: d-oamor-apk-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-apk:
+    name: Compilar APK debug
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Aceptar licencias Android sin interacción
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager 2>/dev/null | sort -V | tail -n 1)"
+          if [ -z "$SDKMANAGER" ]; then
+            echo "::error::No se encontró sdkmanager en $ANDROID_HOME/cmdline-tools"
+            exit 1
+          fi
+          yes | "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --licenses >/dev/null || true
+          "$SDKMANAGER" --sdk_root="$ANDROID_HOME" --install "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Configurar Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "9.3.1"
+
+      - name: Preparar firma debug automática
+        shell: bash
+        run: |
+          set -euo pipefail
+          keytool -genkeypair -v \
+            -keystore debug.keystore \
+            -storepass android \
+            -alias androiddebugkey \
+            -keypass android \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
+
+      - name: Preparar Firebase si existe el secreto
+        env:
+          FIREBASE_GOOGLE_SERVICES_JSON: ${{ secrets.FIREBASE_GOOGLE_SERVICES_JSON }}
+        shell: bash
+        run: |
+          if [ -n "$FIREBASE_GOOGLE_SERVICES_JSON" ]; then
+            printf '%s' "$FIREBASE_GOOGLE_SERVICES_JSON" > app/google-services.json
+          elif [ -f app/google-services.json ]; then
+            echo "Se encontró app/google-services.json."
+          else
+            echo "::warning::Falta Firebase: el APK de prueba puede compilar, pero Google Sign-In y la conexión Firebase no funcionarán hasta agregar la configuración real."
+          fi
+
+      - name: Compilar APK
+        run: gradle --no-daemon --stacktrace :app:assembleDebug
+
+      - name: Preparar APK con nombre final
+        run: |
+          set -euo pipefail
+          test -s app/build/outputs/apk/debug/app-debug.apk
+          mkdir -p dist
+          cp app/build/outputs/apk/debug/app-debug.apk dist/D-oAmor.apk
+          ls -lh dist/D-oAmor.apk
+
+      - name: Publicar APK descargable
+        uses: actions/upload-artifact@v4
+        with:
+          name: D-oAmor-APK
+          path: dist/D-oAmor.apk
+          if-no-files-found: error
+          retention-days: 14

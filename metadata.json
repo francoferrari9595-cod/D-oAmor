@@ -1,0 +1,6 @@
+{
+  "name": "DuoAmor",
+  "description": "App para parejas con chat estilo WhatsApp, zumbido continuo al sostener, llamadas, salvapantallas y minijuegos.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

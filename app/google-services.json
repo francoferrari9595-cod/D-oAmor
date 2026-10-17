@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "458598735608",
+    "project_id": "d-oamor-24510",
+    "storage_bucket": "d-oamor-24510.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458598735608:android:0a8bc4def195a030d0250d",
+        "android_client_info": {
+          "package_name": "com.aistudio.duoamor.wkqz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB56M0JLCr2agmc-PKPmsh1PxLoML4g1kA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
