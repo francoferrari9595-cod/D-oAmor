@@ -1,0 +1,13 @@
+SINI-JOSS v51 — selección de juego sincronizada
+
+Base: v50, que a su vez parte de v49. No se recuperaron archivos antiguos.
+
+Cambio:
+- MinigamesScreen publica el juego elegido en el estado compartido minigameLobby.
+- Los otros dispositivos de la misma sala observan ese estado y entran a la misma pantalla de juego.
+- La selección deja de ser exclusivamente local.
+
+Alcance y límites:
+- Esto sincroniza la selección de juego, no constituye todavía una sala de espera completa con selector compartido de 1–4 jugadores, selección de bots, anfitrión exclusivo y botón único de comenzar.
+- La integración debe probarse con dos dispositivos reales y reglas de Firestore configuradas correctamente.
+- No se pudo compilar la aplicación en este entorno (faltan gradle wrapper y acceso para descargar Gradle).

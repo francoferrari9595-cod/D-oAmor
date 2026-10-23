@@ -1,0 +1,150 @@
+package com.example.ui
+
+import android.content.Intent
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.ui.components.AuroraBackground
+import com.example.ui.components.GlassCard
+import com.example.ui.components.GradientButton
+import com.example.ui.components.SiniJossTitle
+import com.example.ui.components.SoftButton
+import com.example.ui.screens.MinigamesScreen
+import com.example.ui.screens.WalkieButton
+import com.example.ui.screens.WatchPartyScreen
+import com.example.ui.theme.GoldYellow
+
+/** Pantalla para entrar con un código de invitado. */
+@Composable
+fun GuestJoinScreen(vm: CoupleViewModel, onBack: () -> Unit) {
+  var code by remember { mutableStateOf("") }
+  var name by remember { mutableStateOf("") }
+  val error by vm.guestError.collectAsState()
+  androidx.compose.runtime.LaunchedEffect(Unit) { vm.prepareGuestSession() }
+  AuroraBackground {
+    Column(
+      modifier = Modifier.fillMaxSize().statusBarsPadding().navigationBarsPadding().padding(24.dp),
+      verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+      SiniJossTitle(30.sp)
+      Spacer(Modifier.height(10.dp))
+      Text(
+        "🎟️ Entrar como invitado\nPide a la pareja un código de invitado. Podrás jugar, ver cine y mandar audios con ellos.",
+        color = Color(0xFFE2D8F5), textAlign = TextAlign.Center, fontSize = 14.sp
+      )
+      Spacer(Modifier.height(18.dp))
+      OutlinedTextField(value = code, onValueChange = { code = it.filter { ch -> ch.isDigit() }.take(4) }, label = { Text("Código de invitado (4 dígitos)") }, singleLine = true, keyboardOptions = androidx.compose.foundation.text.KeyboardOptions(keyboardType = androidx.compose.ui.text.input.KeyboardType.Number), modifier = Modifier.fillMaxWidth())
+      Spacer(Modifier.height(8.dp))
+      OutlinedTextField(value = name, onValueChange = { name = it.take(24) }, label = { Text("Tu nombre") }, singleLine = true, modifier = Modifier.fillMaxWidth())
+      if (error != null) Text("⚠️ $error", color = Color(0xFFFF9AA8), fontSize = 12.sp, modifier = Modifier.padding(top = 8.dp))
+      Spacer(Modifier.height(14.dp))
+      GradientButton("Unirme a la sala", onClick = { vm.joinAsGuest(code, name) }, modifier = Modifier.fillMaxWidth(), enabled = code.length == 4 && name.isNotBlank())
+      Spacer(Modifier.height(8.dp))
+      SoftButton("← Volver", onClick = onBack)
+    }
+  }
+}
+
+/** Vista del invitado: solo Cine y Juegos (con walkie para hablar). */
+@Composable
+fun GuestScaffold(vm: CoupleViewModel) {
+  var tab by remember { mutableStateOf(0) }
+  val syncIssue by vm.syncIssue.collectAsState()
+  AuroraBackground {
+    Scaffold(
+      containerColor = Color.Transparent,
+      topBar = {
+        Row(modifier = Modifier.fillMaxWidth().statusBarsPadding().padding(horizontal = 14.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
+          Column(modifier = Modifier.weight(1f)) {
+            SiniJossTitle(18.sp)
+            Text("Invitado 🎟️", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 11.sp)
+          }
+          WalkieButton(vm, 40.dp)
+          Spacer(Modifier.width(8.dp))
+          SoftButton("Salir", onClick = { vm.leaveGuest() })
+        }
+      },
+      bottomBar = {
+        Row(modifier = Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 14.dp, vertical = 8.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+          if (tab == 0) GradientButton("🎬 Cine", onClick = { tab = 0 }, modifier = Modifier.weight(1f)) else SoftButton("🎬 Cine", onClick = { tab = 0 }, modifier = Modifier.weight(1f))
+          if (tab == 1) GradientButton("🎲 Juegos", onClick = { tab = 1 }, modifier = Modifier.weight(1f)) else SoftButton("🎲 Juegos", onClick = { tab = 1 }, modifier = Modifier.weight(1f))
+        }
+      }
+    ) { pad ->
+      Column(modifier = Modifier.fillMaxSize().padding(pad)) {
+        if (syncIssue != null) {
+          GlassCard(modifier = Modifier.fillMaxWidth().padding(8.dp), corner = 12.dp, onClick = { vm.clearSyncIssue() }) {
+            Text("⚠️ $syncIssue", color = Color(0xFFFFD0D8), fontSize = 12.sp)
+          }
+        }
+        if (tab == 0) WatchPartyScreen(vm) else MinigamesScreen(vm)
+      }
+    }
+  }
+}
+
+/** Para la pareja: generar el código de invitado y administrar a quienes entraron. */
+@Composable
+fun GuestManagement(vm: CoupleViewModel) {
+  val code by vm.inviteCode.collectAsState()
+  val guests by vm.guestUids.collectAsState()
+  val names by vm.roomNames.collectAsState()
+  val ctx = LocalContext.current
+  val clipboard = LocalClipboardManager.current
+  GlassCard(modifier = Modifier.fillMaxWidth(), highlight = true) {
+    Text("👥 Invitados (hasta 2 más)", color = Color.White, fontWeight = FontWeight.ExtraBold, fontSize = 16.sp)
+    Text(
+      "Cualquiera de los dos puede generar un código. Los invitados solo ven Juegos y Cine y pueden hablar por walkie; no ven tu chat, tu calendario ni tus datos.",
+      color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp
+    )
+    Spacer(Modifier.height(8.dp))
+    if (code.isNotBlank()) {
+      Text(code, color = GoldYellow, fontWeight = FontWeight.Black, fontSize = 30.sp, letterSpacing = 6.sp, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+      Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
+        SoftButton("Copiar", onClick = { clipboard.setText(AnnotatedString(code)) }, modifier = Modifier.weight(1f))
+        SoftButton("Compartir", onClick = {
+          val send = Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, "Únete a nuestra sala en SINI&JOSS con este código de invitado: $code")
+          runCatching { ctx.startActivity(Intent.createChooser(send, "Compartir código").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
+        }, modifier = Modifier.weight(1f))
+        SoftButton("Desactivar", onClick = { vm.revokeGuestCode() }, modifier = Modifier.weight(1f))
+      }
+      Spacer(Modifier.height(6.dp))
+    }
+    GradientButton(if (code.isBlank()) "Generar código de invitado" else "Generar un código nuevo", onClick = { vm.generateGuestCode() }, modifier = Modifier.fillMaxWidth(), enabled = guests.size < 2)
+    if (guests.size >= 2) Text("La sala ya tiene 2 invitados. Expulsa a uno para invitar a otra persona.", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 11.sp)
+    guests.forEach { uid ->
+      Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 8.dp)) {
+        Text("🎟️ ${names[uid] ?: "Invitado"}", color = Color.White, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+        SoftButton("Expulsar", onClick = { vm.kickGuest(uid) })
+      }
+    }
+  }
+}

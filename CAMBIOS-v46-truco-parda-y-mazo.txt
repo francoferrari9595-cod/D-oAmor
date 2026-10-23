@@ -1,0 +1,27 @@
+SINI-JOSS v46 — cambios realizados sobre v45
+
+Base
+- Se tomó el contenido completo de SINI-JOSS v45 como base.
+- No se recuperaron archivos de versiones anteriores ni se revirtieron cambios previos.
+
+Cambios de esta revisión
+1. Truco: detección de parda por equipo
+   - Al comparar las cartas más altas de una baza, ahora se distingue entre varias cartas empatadas que pertenecen al mismo equipo y un empate real entre equipos rivales.
+   - Se registra el resultado de cada baza para resolver las pardas de las bazas siguientes.
+2. Truco: resolución de bazas empatadas
+   - Se aplican reglas básicas de desempate para la primera, segunda y tercera baza.
+   - Si la primera baza queda parda, una segunda baza ganada resuelve la mano; si la segunda queda parda después de ganar la primera, prevalece la primera.
+3. Truco: mazo nuevo por mano
+   - Al comenzar una mano nueva se mezcla nuevamente el mazo español completo de 40 cartas y se reparten tres cartas a cada asiento, evitando agotar el mazo por no reincorporar cartas de manos anteriores.
+
+Limitaciones conocidas que siguen pendientes
+- El envido todavía se resuelve automáticamente y no implementa la secuencia completa de envido, real envido, falta envido, aceptación y rechazo.
+- La asignación de mano en caso de tres bazas pardas es simplificada; falta modelar de forma explícita quién es mano en la ronda.
+- Truco/retruco/vale cuatro, respuestas de bots, puntuación y equipos necesitan pruebas integrales y una revisión completa de reglas.
+- La sala compartida de selección de 1–4 jugadores, bots y comienzo por anfitrión no está terminada.
+- Las llamadas y videollamadas en segundo plano, economía/apalancamiento y las apuestas del póker necesitan pruebas funcionales reales.
+- No se certificó compilación Android: el ZIP base no incluye gradlew ni gradle-wrapper.jar y el entorno no puede resolver el servidor de descargas de Gradle.
+
+Validación realizada
+- Revisión estática del cambio y comprobación de integridad del ZIP.
+- La comprobación del ZIP no equivale a compilar ni ejecutar la aplicación.
