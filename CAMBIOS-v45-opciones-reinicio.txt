@@ -1,0 +1,23 @@
+SINI-JOSS v45 — continuación incremental desde v44
+
+BASE
+- Se usó exclusivamente SINI-JOSS-v44-adivinanzas-ampliadas.zip como base.
+- No se recuperaron archivos de versiones anteriores ni se revirtieron sus cambios.
+
+CAMBIO IMPLEMENTADO
+- En MinigamesScreen, el control común se llama ahora «Opciones» y abre un diálogo de confirmación antes de reiniciar.
+- El diálogo permite cancelar o confirmar el reinicio de la partida compartida, evitando reinicios accidentales al tocar el control.
+- El reinicio confirmado conserva la publicación del estado vacío y el cambio de clave de composición ya existente.
+- Se conserva el contenido de adivinanzas, consignas de dibujo y el estilo neón del póker de la v44.
+
+VERIFICACIONES
+- El ZIP de la versión base v44 pasó la prueba de integridad antes de editarse.
+- No se pudo compilar Android: este entorno no dispone de Gradle instalado, el proyecto no contiene gradlew ni gradle-wrapper.jar y la red no resuelve services.gradle.org.
+- Por lo tanto, el cambio de Kotlin queda pendiente de compilación y prueba en Android Studio/GitHub Actions.
+
+PENDIENTES IMPORTANTES (NO DECLARAR TERMINADOS)
+- Lobby sincronizado para seleccionar jugadores/bots y que el anfitrión comience.
+- Truco argentino completo: cantos y respuestas de envido/real/falta envido, flor opcional, pardas y reglas de mano/partida.
+- Auditoría integral de economía/apuestas y límites de póker.
+- Verificación de llamadas y videollamadas en segundo plano.
+- Pruebas de integración completas y compilación.

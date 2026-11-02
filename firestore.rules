@@ -1,0 +1,175 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function roomExists(roomId) {
+      return exists(/databases/$(database)/documents/rooms/$(roomId));
+    }
+    function isRoomMember(roomId) {
+      return signedIn() && roomExists(roomId)
+        && get(/databases/$(database)/documents/rooms/$(roomId)).data.get('memberUids', []) is list
+        && request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.get('memberUids', []);
+    }
+    function isRoomGuest(roomId) {
+      return signedIn() && roomExists(roomId)
+        && get(/databases/$(database)/documents/rooms/$(roomId)).data.get('guestUids', []) is list
+        && request.auth.uid in get(/databases/$(database)/documents/rooms/$(roomId)).data.get('guestUids', []);
+    }
+    function activeInviteForRoom(code, roomId) {
+      return exists(/databases/$(database)/documents/guestInvites/$(code))
+        && get(/databases/$(database)/documents/guestInvites/$(code)).data.get('active', false) == true
+        && get(/databases/$(database)/documents/guestInvites/$(code)).data.get('roomId', '') == roomId;
+    }
+
+    match /users/{uid} {
+      allow read, write: if signedIn() && request.auth.uid == uid;
+    }
+
+    // Invitaciones de vinculación: se conserva la lógica que usa la aplicación actual.
+    match /invitations/{code} {
+      allow read, write: if signedIn();
+    }
+
+    // Un código solo se puede crear/administrar desde una sala de la que el usuario es miembro.
+    match /guestInvites/{code} {
+      allow read: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.get('roomId', '') is string
+        && isRoomMember(request.resource.data.roomId)
+        && request.resource.data.get('createdBy', '') == request.auth.uid
+        && request.resource.data.get('active', false) == true;
+      allow update: if signedIn()
+        && isRoomMember(resource.data.get('roomId', ''))
+        && request.resource.data.get('roomId', '') == resource.data.get('roomId', '')
+        && request.resource.data.get('createdBy', '') == resource.data.get('createdBy', '');
+      allow delete: if signedIn() && isRoomMember(resource.data.get('roomId', ''));
+    }
+
+    match /couples/{coupleId} {
+      allow get: if signedIn();
+      allow list: if false;
+      allow create, update: if signedIn();
+      allow delete: if false;
+      match /{subcollection}/{document=**} {
+        allow read, write: if signedIn();
+      }
+    }
+
+    match /rooms/{roomId} {
+      allow create: if signedIn()
+        && request.resource.data.get('memberUids', []) is list
+        && request.resource.data.memberUids.size() == 2
+        && request.auth.uid in request.resource.data.memberUids;
+      allow get: if signedIn() && (isRoomMember(roomId) || isRoomGuest(roomId));
+      allow list: if false;
+      allow update: if isRoomMember(roomId)
+        || (isRoomGuest(roomId)
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['games', 'players']))
+        || (signedIn()
+          && request.resource.data.get('joinCode', '') is string
+          && activeInviteForRoom(request.resource.data.joinCode, roomId)
+          && request.resource.data.get('guestUids', []) is list
+          && request.auth.uid in request.resource.data.guestUids
+          && request.resource.data.guestUids.size() <= 2
+          && request.resource.data.guestUids.hasAll(resource.data.get('guestUids', []))
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['guestUids', 'joinCode', 'players']));
+      allow delete: if false;
+    }
+
+    match /rooms/{roomId}/live/{uid} {
+      allow read: if signedIn() && (isRoomMember(roomId) || isRoomGuest(roomId));
+      allow create, update, delete: if signedIn() && request.auth.uid == uid && (isRoomMember(roomId) || isRoomGuest(roomId));
+    }
+
+    match /rooms/{roomId}/race/{uid} {
+      allow read: if signedIn() && (isRoomMember(roomId) || isRoomGuest(roomId));
+      allow create, update, delete: if signedIn() && request.auth.uid == uid && (isRoomMember(roomId) || isRoomGuest(roomId));
+    }
+
+    // ---- Presencia real (reglas deliberadamente simples para que compilen y publiquen sin errores) ----
+    // Cada persona solo escribe SU documento (el id es su uid); cualquiera con sesión puede leer.
+    match /lobbyPresence/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+    match /roomPresence/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+    // Sello de hora del servidor para calibrar el reloj de cada teléfono.
+    match /clock/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // ---- Administración de salas: el código se comprueba por su hash (SHA-256 con sal) ----
+    match /admins/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid && request.resource.data.hash == 'bbd2a70d2c41b96db0e372134244ea76aed7331f2c56849f6cf9bbb26564fa8b';
+      allow delete: if false;
+    }
+    // Salas fijas (Sala 1-4) eliminadas: evita que la app las vuelva a crear.
+    match /tombstones/{id} {
+      allow read: if signedIn();
+      allow create: if signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+      allow update, delete: if false;
+    }
+
+    // ---- Salas públicas (Sala 1-4 y salas con nombre) ----
+    function lobbyPath(lid) { return /databases/$(database)/documents/lobbies/$(lid); }
+    match /lobbies/{lid} {
+      allow get, list: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.get('name', '') is string
+        && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 24;
+      // Sala sin contraseña: cualquiera con sesión. Con contraseña: solo quien ya entró (ver /joins).
+      // Además, nadie puede cambiar el nombre, la contraseña, el orden ni quién creó la sala:
+      // solo se pueden tocar los campos que usa el juego (games, players, guestUids, inviteCode).
+      allow update: if signedIn()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['games', 'players', 'guestUids', 'inviteCode'])
+        && (resource.data.get('hasPw', false) == false
+            || exists(/databases/$(database)/documents/lobbies/$(lid)/joins/$(request.auth.uid)));
+      // Solo quien probó el código de administración (documento /admins/{uid}) puede borrar una sala.
+      allow delete: if signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+
+      // Documento privado con el hash de la contraseña: nadie lo lee, solo se compara en las reglas.
+      match /private/{doc} {
+        allow read: if false;
+        allow create: if signedIn() && !exists(/databases/$(database)/documents/lobbies/$(lid)/private/pw);
+        allow update, delete: if false;
+      }
+      // Prueba de acceso: solo se acepta si el hash enviado coincide con el de la sala.
+      // Carreras: cada piloto escribe solo su documento; todos los de la sala lo pueden leer.
+      match /live/{uid} {
+        allow read: if signedIn();
+        allow create, update, delete: if signedIn() && request.auth.uid == uid;
+      }
+      match /race/{uid} {
+        allow read: if signedIn();
+        allow create, update, delete: if signedIn() && request.auth.uid == uid;
+      }
+      // Chat de la sala: cualquiera con sesión lee; cada uno escribe solo mensajes propios y no se editan.
+      match /chat/{mid} {
+        allow read: if signedIn();
+        allow create: if signedIn() && request.resource.data.uid == request.auth.uid
+          && request.resource.data.get('text', '') is string && request.resource.data.get('text', '').size() <= 400;
+        allow update, delete: if false;
+      }
+      // Llamada de voz grupal: presencia propia y señales dirigidas.
+      match /gcall/{uid} {
+        allow read: if signedIn();
+        allow create, update, delete: if signedIn() && request.auth.uid == uid;
+      }
+      match /gsig/{sid} {
+        allow create: if signedIn() && request.resource.data.from == request.auth.uid;
+        allow read, delete: if signedIn() && resource.data.to == request.auth.uid;
+        allow update: if false;
+      }
+      match /joins/{uid} {
+        allow read: if signedIn() && request.auth.uid == uid;
+        allow create, update: if signedIn() && request.auth.uid == uid
+          && request.resource.data.hash == get(/databases/$(database)/documents/lobbies/$(lid)/private/pw).data.hash;
+        allow delete: if signedIn() && request.auth.uid == uid;
+      }
+    }
+  }
+}

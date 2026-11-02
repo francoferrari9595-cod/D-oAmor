@@ -1,0 +1,8 @@
+CONFIGURACIÓN NECESARIA EN FIREBASE
+
+1. Copia este archivo firestore.rules a Firebase Console > Firestore Database > Reglas y publica las reglas.
+2. En Authentication > Método de acceso, activa Anónimo.
+3. La app usa la base de datos Firestore predeterminada. Crea la base de datos (default) si todavía no existe.
+4. La invitación dura 24 horas y solo puede usarse una vez. Cada cuenta se autentica anónimamente y queda vinculada a su pareja.
+
+IMPORTANTE: Las cuentas anónimas quedan ligadas a la instalación. Para recuperar la relación después de desinstalar o cambiar de teléfono, hace falta añadir un método de cuenta recuperable (correo/Google); la vinculación permanente no sustituye esa recuperación.
