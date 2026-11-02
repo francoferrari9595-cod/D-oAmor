@@ -1,0 +1,15 @@
+SINI-JOSS v42 — ampliación incremental de juegos
+
+BASE DE TRABAJO
+- Se parte del ZIP SINI-JOSS-v41-consignas-dibujo.zip recibido como versión inmediatamente anterior.
+- No se recuperaron archivos de versiones anteriores ni se revirtieron cambios previos.
+
+CAMBIOS EN ESTA ENTREGA
+- Se conserva el banco de 2.000 consignas compuestas para Adivina el dibujo (50 sujetos x 40 situaciones), además de las palabras base.
+- Se amplía Adivinanzas con 50 objetivos/pistas revisados y 10 formulaciones para cada pista: hasta 500 nuevas adivinanzas generadas localmente, con sinónimos aceptados. Se conservan las adivinanzas anteriores.
+- El contador del juego se basa en el tamaño real del banco combinado.
+
+PENDIENTE / LIMITACIONES
+- Esta entrega aún no llega a las 2.000 adivinanzas adicionales solicitadas; el banco se amplía por etapas para evitar inflarlo con preguntas vacías o respuestas incorrectas.
+- Siguen pendientes la sala previa común de jugadores/bots, la implementación completa del Truco argentino, apuestas y controles de póker, revisión de llamadas en segundo plano y reinicio seguro específico por juego.
+- No se certifica compilación Android ni prueba integral. El ZIP se debe validar en el entorno de Gradle del proyecto antes de instalar.

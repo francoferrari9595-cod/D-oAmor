@@ -1,0 +1,23 @@
+CONFIGURACIÓN DEL PROYECTO NUEVO SINI-JOSS
+
+Proyecto Firebase configurado: sini-joss-nuevo
+Número de proyecto: 715068754292
+Paquete Android: com.aistudio.duoamor.wkqz
+
+IMPORTANTE: este archivo no crea ni habilita servicios en Firebase por sí solo. Antes de probar la app:
+
+1. En Firebase Console, abre el proyecto sini-joss-nuevo.
+2. En Authentication > Sign-in method, habilita el método de acceso que utiliza la app. No habilites proveedores que no uses.
+3. En Firestore Database, crea la base de datos predeterminada (default), en modo de producción y selecciona la región que corresponda a tus usuarios. La región no se puede cambiar después de crear la base.
+4. No borres ni modifiques el proyecto anterior d-oamor-24510.
+5. Sube TODO el contenido de esta carpeta al repositorio GitHub correcto, conservando la carpeta .github.
+6. Para publicar reglas desde GitHub Actions: en Firebase Console > Project settings > Service accounts, crea una clave privada para una cuenta de servicio con permisos mínimos de despliegue de reglas. Guarda el JSON completo en GitHub > Settings > Secrets and variables > Actions con el nombre exacto FIREBASE_SERVICE_ACCOUNT_SINI_JOSS_NUEVO. Nunca pegues esa clave en el chat ni la subas al repositorio.
+7. En GitHub Actions, ejecuta manualmente “Publicar reglas Firebase - SINI-JOSS-NUEVO”. El workflow publica SOLO firestore.rules y apunta al proyecto sini-joss-nuevo.
+8. Ejecuta también el workflow de compilación Android y revisa el resultado.
+
+SEGURIDAD Y ESTADO
+- El .firebaserc y el workflow apuntan al proyecto sini-joss-nuevo.
+- app/google-services.json corresponde al nuevo proyecto.
+- firebase.json apunta a firestore.rules.
+- La base de datos y Authentication todavía deben habilitarse en Firebase Console.
+- No se puede garantizar que todos los permisos de la aplicación funcionen hasta ejecutar pruebas reales con cuentas y dos teléfonos. Si una operación da PERMISSION_DENIED, se debe ajustar la regla específica, no abrir todos los datos públicamente.
