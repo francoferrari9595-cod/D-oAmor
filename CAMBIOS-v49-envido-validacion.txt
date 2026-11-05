@@ -1,0 +1,17 @@
+SINI-JOSS v49 — ajuste de envido encadenado
+
+Base: v48-envido-encadenado. No se recuperaron archivos de versiones anteriores.
+
+Cambio:
+- Se agrega un contador compartido de subidas de envido.
+- Se evita ofrecer/aceptar una segunda subida consecutiva de “Otro envido” tras envido-envido, que podía dejar repetir la misma apuesta indefinidamente.
+- Se conserva la posibilidad de subir a Real Envido o Falta Envido cuando corresponde.
+
+Validación realizada:
+- Revisión estática de los cambios y comprobación de integridad del ZIP.
+- No se pudo ejecutar una compilación Android: el proyecto no incluye gradlew ni gradle-wrapper.jar y el entorno no puede descargar Gradle. Por eso no se declara compilado ni probado en dispositivo.
+
+Pendiente de validar en ejecución real:
+- Reglas completas del Truco argentino, desempates por mano y escenarios de parda.
+- Sala sincronizada de selección de jugadores/bots y comienzo de partida.
+- Revisión integral de todos los juegos, llamadas en segundo plano, apuestas/economía y pruebas instrumentadas.

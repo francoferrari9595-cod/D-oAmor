@@ -1,0 +1,11 @@
+SINI&JOSS v26 — corrección de acceso a Firestore
+
+Cambio aplicado:
+- Se centralizó la creación de FirebaseFirestore en FirestoreInstance.
+- El repositorio principal, PairingGate, el registro del token FCM y los servicios de llamadas/zumbador ahora utilizan el mismo ID de base de datos definido en app/src/main/res/values/firebase_applet_config.xml.
+- Esto evita que unas funciones consulten la base predeterminada mientras otras usan la base configurada.
+
+Importante:
+- No se modificaron las reglas para evitar repetir reglas sin resolver la causa.
+- Este entorno no contiene gradlew ni gradle-wrapper.jar, y no tiene Gradle instalado; por eso no fue posible ejecutar una compilación aquí. No se afirma que el APK esté verificado.
+- El proyecto debe compilarse en el flujo de GitHub Actions habitual. Si falla, el log de compilación será necesario para ajustar cualquier error específico.

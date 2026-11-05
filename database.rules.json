@@ -1,0 +1,59 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "presence": {
+      "$col": {
+        ".read": "auth != null",
+        ".indexOn": ["scope"],
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid",
+          ".validate": "newData.hasChildren(['scope']) && newData.child('scope').isString() && newData.child('scope').val().length <= 120"
+        }
+      }
+    },
+    "gcall": {
+      "$room": {
+        ".read": "auth != null",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    },
+    "rooms": {
+      "$room": {
+        "games": {
+          ".read": "auth != null",
+          ".write": "auth != null"
+        },
+        "chat": {
+          ".read": "auth != null",
+          "$mid": {
+            ".write": "auth != null && !data.exists()",
+            ".validate": "newData.child('uid').val() === auth.uid && newData.child('t').isNumber()"
+          }
+        },
+        "live": {
+          ".read": "auth != null",
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid"
+          }
+        },
+        "race": {
+          ".read": "auth != null",
+          "$uid": {
+            ".write": "auth != null && auth.uid === $uid"
+          }
+        },
+        "gsig": {
+          "$to": {
+            ".read": "auth != null && auth.uid === $to",
+            "$sid": {
+              ".write": "auth != null && (auth.uid === $to || newData.child('from').val() === auth.uid)"
+            }
+          }
+        }
+      }
+    }
+  }
+}

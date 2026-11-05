@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "715068754292",
+    "project_id": "sini-joss-nuevo",
+    "storage_bucket": "sini-joss-nuevo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:715068754292:android:143c545ab2196d508ec421",
+        "android_client_info": {
+          "package_name": "com.aistudio.duoamor.wkqz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQUpqzKJAVepYni5E3dnHHx_yJMBjhKXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
