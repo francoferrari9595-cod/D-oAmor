@@ -1,8 +1,8 @@
 {
-  "latestVersionCode": 123,
-  "minimumSupportedVersionCode": 122,
-  "versionName": "1.23",
+  "latestVersionCode": 29897354,
+  "minimumSupportedVersionCode": 29897354,
+  "versionName": "2026.11.05.0114",
   "apkUrl": "https://github.com/francoferrari9595-cod/D-oAmor/releases/download/android-latest/KOMBO-ARENA.apk",
   "releaseNotes": "El diagnóstico de conexión ahora prueba también la escritura directa (REST) para mostrar el motivo real por el que no se confirman las escrituras.",
-  "forceThisRelease": true
+  "forceThisRelease": false
 }
