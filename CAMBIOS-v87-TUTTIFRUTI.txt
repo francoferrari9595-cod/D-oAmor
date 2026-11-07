@@ -1,0 +1,14 @@
+SINI&JOSS v87 - Ampliación de validación de Tutti Frutti
+
+Base: SINI&JOSS v86. No se recuperaron archivos de versiones anteriores.
+
+Cambios:
+- Se amplió el vocabulario por categorías (animales, alimentos, objetos, profesiones, ciudades, países/provincias, marcas, personalidades y entretenimiento).
+- Se añadió soporte explícito para respuestas compuestas de varias palabras en categorías que lo necesitan.
+- Se conservó la normalización de mayúsculas y tildes y la distinción de la ñ.
+- Se añadieron pruebas para vocabulario ampliado, respuestas compuestas, categorías incorrectas y categorías desconocidas.
+
+Limitaciones:
+- El vocabulario es una ampliación local curada, no un diccionario exhaustivo ni una fuente lexicográfica oficial.
+- Las pruebas JUnit se agregaron al proyecto, pero no se ejecutaron aquí: el ZIP no contiene gradlew y el entorno no dispone de Gradle/Kotlin compiler.
+- No se verificó la compilación completa de Android.

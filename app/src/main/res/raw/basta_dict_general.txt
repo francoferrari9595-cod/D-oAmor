@@ -1,0 +1,25 @@
+# Base de diccionario 2 de ¡Basta!: palabras comunes del español (una lista por línea, separadas por espacio). Las líneas con # son comentarios.
+abeja abrazo abrigo abril abuela abuelo aceite acero acuerdo adiós agua águila ahora aire ajo alas albergue alegría alfombra algodón alimento alma almohada alto amanecer amarillo amigo amor ancho andar ángel animal anillo año antes apellido aprender árbol arcoíris arena arma arroz arte asado aspirina astro atardecer auto avión ayer ayuda azúcar azul
+babel bacán baile bajo balcón ballena banco bandera baño barba barco barrio bastón basura batería bebé belleza beso biblioteca bicicleta bien blanco boca boda bola bolsa bomba bonito borde bosque bota botella brazo breve brillo broma bruja bueno burbuja burro buscar
+caballo cabeza cabra cacería cada café caída caja calle calor cama cambio camino camisa campana campo canción cansado cantar capital cara caracol carne carro carta casa castillo causa cebolla cena cerca cerebro cero cerrar chico chocolate cielo cien ciencia cine círculo ciudad clase claro clave cobre cocina cola color comer cometa compra computadora comida conejo contar corazón correr cortina corto cosa costa crecer cruz cuadro cuarto cuchara cuchillo cuento cuerda cuerpo cuidado culpa cumpleaños curva
+dado danza dar dato debajo decir dedo defensa dejar delfín delgado demasiado dentro derecho desayuno desierto después destino día diablo diamante diario dibujo diccionario diente diez difícil dinero dios dirección disco distancia doble doce dolor domingo dónde dormir dos dragón duda dulce durante duro
+edad edificio ejemplo elefante emoción empezar encima enero enfermo ensalada entrada equipo error escalera escoba escribir escuela espacio espalda espejo esperar esquina estación estrella estudio eterno examen éxito extraño
+fábrica fácil falda familia fantasma farmacia favor fecha feliz feo fiesta fila final flor foco foto frase freno fresco frío fruta fuego fuente fuerte fútbol futuro
+galleta gallina ganar garganta gato gente gigante globo goma gorra gracias grande gris grupo guante guerra guitarra gusto
+habitación hablar hacer hada hambre harina hasta helado hermano héroe hielo hierba hijo historia hogar hoja hombre hora hormiga hospital hotel hoy hueso huevo humo
+idea iglesia igual imagen imán imposible incendio infierno invierno invitado isla izquierda
+jabón jamás jardín jarra jefe joven joya juego jueves jugar jugo julio junio justo juventud
+kilo kilómetro kiosco koala
+labio lado ladrón lago lámpara lana lápiz largo lástima lata lavar leche lectura lejos lengua lento león letra libertad libre libro licuadora ligero limón limpio línea lista llave llegar lleno llorar lluvia lobo loco luego lugar luna lunes luz
+madera madre maestro mal maleta malo mamá mano manzana mañana mapa mar marca martes marzo más mascota mate mayo medio mejor memoria menos mensaje mente mesa metal metro miedo miel miércoles mil minuto mirar mismo mitad mochila moda momento moneda mono montaña morir mosca moto mucho mueble muerte mujer mundo muñeca museo música muy
+nacer nada nadar naranja nariz natural navidad necesitar negro nieve niño noche nombre norte nota noticia noviembre nube nuevo número nunca
+objeto océano ocho octubre oeste oficina ojo ola olor olvidar once ontología oración oreja oro oscuro otoño oveja
+paciencia padre página país pájaro palabra palacio pan pantalla papa papá papel par parque parte pasado pasar pasto pata patio pato payaso paz pecho pedir pegar película pelo pelota peluche pensar pequeño pera perder perro persona pesado pescado peso pez piano pie piedra piel pierna pila piña pintura pirata piscina piso plan planeta plata plato playa plaza pluma pobre poco poder policía pollo polvo postre precio primavera primo princesa problema profesor puente puerta pulpo punto
+quedar quemar querer queso quien quince quinto quitar
+radio raíz rama rápido rato ratón razón real recreo red reina reír reloj repetir rey rico río risa robot roca rojo romper ropa rosa rueda ruido
+sábado saber sacar sal sala salida salir salón saltar salud sandía sangre sano sapo secreto sed seguir segundo selva semana sentir señor septiembre ser serpiente siempre siete siglo silencio silla sillón sin sitio sobre sol soldado solo sombra sonido sopa sorpresa sótano suave sucio sueño suerte supermercado sur
+tabla tambor tarde tarea tarjeta taza té techo tela teléfono televisión tema tener tercero tesoro tía tiempo tienda tierra tigre tijera timbre tinta tío tipo tirar toalla tocar todo tomate tormenta toro torre tortuga trabajo traer tranquilo tren tres triste trueno tú tubo turno
+último uno urgente usar útil uva
+vaca vacío vacaciones valiente valor vaso vecino vela vendedor ventana ver verano verbo verdad verde vestido vez viaje vida viejo viento viernes vino violeta visita vivir volar volver voz vuelo
+yate yegua yema yo yoga yogur
+zanahoria zapato zona zoológico zorro zumbido

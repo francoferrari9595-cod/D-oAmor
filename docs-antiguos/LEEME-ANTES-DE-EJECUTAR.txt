@@ -1,0 +1,26 @@
+D-oAmor - corrección de Firebase y vinculación
+
+CAMBIO IMPORTANTE
+La app Android usa FirebaseFirestore.getInstance(), que apunta a la base de datos Firestore llamada (default). Por eso las reglas deben publicarse en la base de datos (default) del proyecto d-oamor-24510. Si las reglas se publicaron en otra base de datos, la app seguirá mostrando PERMISSION_DENIED.
+
+EN FIREBASE CONSOLE
+1. Abre https://console.firebase.google.com/ y el proyecto d-oamor-24510.
+2. Entra en Firestore Database.
+3. Si hay selector de base de datos, selecciona (default), no otra base de datos con un nombre largo.
+4. En Reglas, publica el contenido completo de firestore.rules de este proyecto.
+5. En Authentication > Sign-in method, activa Anónimo.
+6. Comprueba que Firestore Database esté creada en (default).
+
+CAMBIOS DE ESTA VERSIÓN
+- Firebase CLI queda configurado para publicar las reglas en (default).
+- Al recuperar o completar una vinculación, el ID de pareja se comunica al repositorio de la app para que la mensajería use el documento correcto.
+- Se mantienen reglas de acceso restringidas; no uses reglas públicas.
+
+COMPILACIÓN
+El proyecto debe compilarse con GitHub Actions después de subir estos cambios. No se afirma que esta versión haya sido compilada ni probada en dos teléfonos desde este entorno.
+
+NOTA SOBRE CUENTAS
+La vinculación anónima puede perderse si se desinstala la app o se cambia de teléfono. Para recuperación real entre instalaciones será necesario añadir inicio de sesión recuperable.
+
+
+CORRECCIÓN PERMISSION_DENIED (15-10-2026): la creación de invitación ya no intenta leer documentos aleatorios inexistentes para comprobar colisiones. Las reglas actuales restringen esa lectura y la bloqueaban antes de crear el código. Genera e instala un APK nuevo con este código.
