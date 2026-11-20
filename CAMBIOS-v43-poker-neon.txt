@@ -1,0 +1,16 @@
+SINI-JOSS v43 — mejora visual del control de subida de póker
+
+BASE
+- Se continúa directamente sobre los archivos de la v42.
+- No se recuperaron archivos de versiones anteriores ni se revirtieron correcciones.
+
+CAMBIO DE ESTA ENTREGA
+- El control de subida personalizada de Texas Hold'em ahora se presenta dentro de un marco con gradiente cónico/neón.
+- El valor mostrado y el valor del slider se limitan al rango válido de subida según el stack disponible y el mínimo configurado.
+- Se conservan las consignas de dibujo, el banco de adivinanzas y los cambios de las entregas anteriores.
+
+PENDIENTES IMPORTANTES
+- No se ha implementado todavía la sala común previa con selección de 1–4 jugadores, bots y comienzo por el anfitrión.
+- El Truco argentino continúa sin tener resueltos todos los casos de parda, las respuestas completas a envido/real envido/falta envido y la puntuación completa.
+- El banco de adivinanzas aún no alcanza 2.000 adivinanzas nuevas independientes.
+- No se certifica compilación ni pruebas integrales de APK en este entorno.

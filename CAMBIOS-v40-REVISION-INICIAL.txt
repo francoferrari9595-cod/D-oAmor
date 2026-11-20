@@ -1,0 +1,23 @@
+SINI-JOSS v40 — revisión incremental sobre la base v39
+
+Base preservada: SINI-JOSS-v39-cambios-en-progreso.zip. No se restauraron archivos de versiones antiguas.
+
+Cambios aplicados en esta revisión:
+- Truco: la preparación de mesa evita una cantidad impar de asientos; si hay tres participantes, agrega un bot para completar 2 contra 2. Se ajustó el texto para no presentar el envido simplificado como si fuera completo y se muestran nombres en las cartas jugadas.
+- Ahorcado: el área de la horca/personaje es más alta para mejorar la presencia visual en pantalla.
+- Juegos: el control de reinicio ahora está rotulado como acceso de configuración y reinicio.
+
+Pendientes que NO deben considerarse completados:
+- Flujo común de sala previa con selección de 1–4 jugadores, bots, preparación de participantes y comienzo por anfitrión.
+- Truco argentino completo: respuestas a envido/real/falta envido, flor opcional, resolución integral de pardas, equipos y puntos validados.
+- 2.000 adivinanzas nuevas y 2.000 consignas nuevas de dibujo. La base v39 no contiene esas cantidades y no se agregaron en esta revisión.
+- Sistema de monedas/apuestas, slider de all-in y llamada/videollamada probadas extremo a extremo.
+- Reinicio específico y seguro en todos los minijuegos desde un menú de ajustes uniforme.
+
+Pruebas: se verificó la edición de los archivos y la estructura del ZIP. No se pudo ejecutar Gradle en este entorno: la base contiene gradle-wrapper.properties pero no incluye gradlew ni gradle-wrapper.jar, y no hay instalación local de Gradle. Por lo tanto, esta revisión no está certificada como compilable.
+
+
+AMPLIACIÓN CONTINUADA (v41)
+- Se amplió el banco de “Adivina el dibujo” con 2.080 consignas compuestas únicas (52 sujetos x 40 situaciones), generadas localmente y combinadas con las palabras base existentes.
+- El juego informa la cantidad de consignas mixtas disponibles. Las categorías temáticas específicas conservan su lista propia.
+- Siguen pendientes las 2.000 adivinanzas nuevas, la pantalla/lobby común de jugadores y bots, la implementación completa de Truco, apuestas y llamadas, y la compilación integral. No se afirma que esos pendientes estén resueltos.

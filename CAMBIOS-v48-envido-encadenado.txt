@@ -1,0 +1,21 @@
+SINI-JOSS v48 — cambios sobre v47
+
+Base respetada: esta versión se generó descomprimiendo SINI-JOSS-v47-envido-respuestas.zip y editando esa copia. No se restauraron archivos de versiones anteriores.
+
+Cambios concretos:
+- Se agregó la posibilidad de subir una propuesta de envido pendiente: envido, real envido o falta envido según la cadena permitida por la interfaz.
+- Se conserva la apuesta anterior para que un rechazo de la subida otorgue el valor de la propuesta previa al equipo que la había cantado.
+- La subida cambia quién debe responder y quién hizo la última propuesta.
+- Se limitó la subida desde real envido a falta envido.
+
+Validación:
+- El ZIP anterior v47 pasó unzip -t antes de extraerlo.
+- La compilación Android no se pudo ejecutar: falta gradlew y gradle-wrapper.jar, no hay instalación de Gradle y no se pudo resolver services.gradle.org desde este entorno.
+- No se afirma que el proyecto compile ni que el juego esté probado en dispositivos.
+
+Pendiente para declarar el proyecto terminado:
+- Integrar una sala previa sincronizada para seleccionar jugadores, bots y comenzar.
+- Auditar y validar todo el reglamento de Truco, incluido orden de mano, puntuación y casos límite de envido/truco.
+- Auditar las apuestas y economía de todos los juegos.
+- Probar llamadas/videollamadas en segundo plano en dispositivos reales.
+- Compilar y ejecutar pruebas integrales Android.

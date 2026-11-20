@@ -1,0 +1,13 @@
+SINI-JOSS v44 — ampliación del banco de adivinanzas
+
+Base de trabajo: SINI-JOSS v43-poker-neon. No se recuperaron archivos de versiones anteriores.
+
+Cambios:
+- Se ampliaron las plantillas de presentación de adivinanzas de 10 a 50.
+- Con 50 objetivos y sus pistas, el banco genera hasta 2.500 formulaciones distintas, más las adivinanzas base. Se eliminan preguntas duplicadas exactas por texto.
+- Se conservan las 2.000 consignas compuestas de dibujo (50 sujetos x 40 situaciones), las modificaciones de póker neón y los cambios previos.
+
+Limitaciones verificadas:
+- La variedad del banco generado se basa en reformular pistas de 50 objetivos; no equivale a 2.500 acertijos con soluciones conceptualmente independientes. Para evitar afirmaciones engañosas, se documenta así.
+- No se certificó compilación Android: el repositorio no incluye gradlew ni gradle-wrapper.jar y no hay instalación local de Gradle disponible en el entorno de trabajo.
+- Siguen pendientes la sala de espera común para configurar jugadores/bots, la implementación completa y validación del Truco argentino, revisión integral de economía/apuestas y pruebas de llamadas en segundo plano.

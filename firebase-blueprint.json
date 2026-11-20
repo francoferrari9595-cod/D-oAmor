@@ -1,0 +1,48 @@
+{
+  "entities": {
+    "User": {
+      "collection": "users",
+      "fields": {
+        "displayName": { "type": "string", "required": true },
+        "nickname": { "type": "string", "required": false },
+        "avatar": { "type": "string", "required": false },
+        "coupleId": { "type": "string", "required": false },
+        "isOnline": { "type": "boolean", "required": false },
+        "batteryLevel": { "type": "number", "required": false },
+        "createdAt": { "type": "timestamp", "required": false },
+        "updatedAt": { "type": "timestamp", "required": false }
+      }
+    },
+    "Couple": {
+      "collection": "couples",
+      "fields": {
+        "pairingCode": { "type": "string", "required": true },
+        "memberUids": { "type": "list", "required": true },
+        "partner1Name": { "type": "string", "required": false },
+        "partner2Name": { "type": "string", "required": false },
+        "startDateMillis": { "type": "number", "required": false },
+        "screensaverNote": { "type": "string", "required": false },
+        "screensaverEmoji": { "type": "string", "required": false },
+        "activeBuzzSenderUid": { "type": "string", "required": false },
+        "activeBuzzDurationMs": { "type": "number", "required": false },
+        "createdAt": { "type": "timestamp", "required": false },
+        "updatedAt": { "type": "timestamp", "required": false }
+      }
+    },
+    "Message": {
+      "collection": "couples/{coupleId}/messages",
+      "fields": {
+        "senderId": { "type": "string", "required": true },
+        "content": { "type": "string", "required": true },
+        "type": { "type": "string", "required": true },
+        "audioDurationSec": { "type": "number", "required": false },
+        "locationName": { "type": "string", "required": false },
+        "latitude": { "type": "number", "required": false },
+        "longitude": { "type": "number", "required": false },
+        "buzzDurationMs": { "type": "number", "required": false },
+        "createdAt": { "type": "timestamp", "required": false },
+        "updatedAt": { "type": "timestamp", "required": false }
+      }
+    }
+  }
+}

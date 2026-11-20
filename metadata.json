@@ -1,0 +1,6 @@
+{
+  "name": "KOMBO ARENA",
+  "description": "Estación de juegos multijugador por salas: Truco, Póker, Virus, Uno, Ajedrez, Carreras y más.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,11 @@
+SINI-JOSS v50 — correcciones adicionales de Truco
+
+Base: SINI-JOSS v49. No se restauraron archivos de versiones anteriores.
+
+Cambios en TrucoGame.kt:
+- La posición de mano rota al comenzar cada nueva mano.
+- Los empates de envido consideran el orden de mano en lugar de comparar únicamente el índice fijo del asiento.
+- Rechazar Truco, Retruco o Vale Cuatro ahora termina la mano, suma los tantos correspondientes, limpia las bazas y reparte una nueva mano si nadie llegó a 30.
+
+Validación realizada: revisión estática del cambio y comprobación de integridad del ZIP.
+No se pudo ejecutar compilación Android ni pruebas de dispositivo en este entorno; por lo tanto, estos cambios no se declaran compilados ni probados en ejecución. Quedan pendientes la sala sincronizada completa, economía/apuestas en todos los juegos, llamadas en segundo plano y validación integral de todos los minijuegos.

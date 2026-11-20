@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- URL de la Realtime Database (Firebase Console -> Realtime Database -> arriba de los datos).
+         Si la creaste en Estados Unidos es esta. Si elegiste otra region tiene la forma
+         https://sini-joss-nuevo-default-rtdb.REGION.firebasedatabase.app -->
+    <string name="rtdb_url" translatable="false">https://sini-joss-nuevo-default-rtdb.firebaseio.com</string>
+</resources>

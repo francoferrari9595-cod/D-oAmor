@@ -1,0 +1,16 @@
+SINI-JOSS v39 — CAMBIOS EN PROGRESO
+Base: SINI-JOSS v38-virus-cartas-compilacion-corregida.zip
+
+Implementado en esta fase:
+- Botón común de reinicio dentro de las pantallas de juegos; reinicia estado compartido cuando corresponde y vuelve a crear el estado local de la pantalla.
+- Póker: subida rápida con toque y panel de apuesta personalizada con deslizador al mantener pulsado el botón.
+- Servicio de primer plano para priorizar la continuidad de una llamada WebRTC al minimizar la app; notificación de llamada activa y detención al finalizar.
+
+IMPORTANTE: esta versión NO completa todavía todo el pedido original. Aún requieren una fase adicional y pruebas:
+- Lobby compartido real en todos los juegos para 2–4 jugadores, con selección de bots y botón único de comienzo.
+- Banco de 5.000 adivinanzas y 5.000 consignas de dibujo con contenido verificado.
+- Reglas de apuestas/coins consistentes en todos los juegos y regla de coins para invitados.
+- Diagnóstico y prueba real de videollamada entre dos dispositivos; el servicio de primer plano no garantiza por sí solo que la señalización WebRTC, Firebase y TURN estén correctamente configurados.
+- Compilación Android completa y pruebas en dispositivo. Este entorno no incluye Gradle Wrapper completo ni se pudo ejecutar assembleDebug.
+
+No publicar como versión final ni sustituir una versión estable hasta completar estas tareas.
